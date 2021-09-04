@@ -94,22 +94,21 @@ int main(){
 		pthread_t threads[numThreads];
 		threadStruct tStruct[numThreads];
 
-		for(t=0; t<numThreads; t++){
-			for(int i=0; i<rowsA; i++){
-				for(int j=0; j< *colsB; j++){
-					//Assign row and col to each thread
-					tStruct[t].row = i;
-					tStruct[t].col = j;
+		for(int i=1; i<=rowsA; i++){
+			for(int j=0; j< *colsB; j++){
+				//Assign row and col to each thread
+				t=i*j;
+				tStruct[t].row = i-1;
+				tStruct[t].col = j;
 
-					//create thread
-					rc = pthread_create(&threads[t], NULL, (void *)MatrixMultiplication, (void *)&tStruct[t]);
-					
-					//if an error occurs
-					if(rc){
-						printf("ERROR; return code from pthread_create() is %d\n", rc);
-					}
-
+				//create thread
+				rc = pthread_create(&threads[t], NULL, (void *)MatrixMultiplication, (void *)&tStruct[t]);
+				
+				//if an error occurs
+				if(rc){
+					printf("ERROR; return code from pthread_create() is %d\n", rc);
 				}
+
 			}
 			pthread_join(threads[t], NULL);
 		}
@@ -119,7 +118,7 @@ int main(){
 		cout << "resultant matrix \n";
 		for(int i = 0; i<rowsA; i++){
 			for(int j = 0; j<*colsB; j++){
-				 cout<<matrixC[i* *colsB+j] << "\n";
+				 cout << matrixC[i * *colsB + j] << "\n";
 			}                                              	
 			
 		}
