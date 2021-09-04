@@ -16,18 +16,16 @@ typedef struct{
 	int col; //col
 } threadStruct;
 
-void matrixMultiplication(void *threadArg){
+void MatrixMultiplication(void *threadArg){
 	threadStruct *threadS;
 	int pos = 0;
-	int row = threadS->row;
-	int col = threadS->col;
-	int j = 0;
-	cout << "help";
+	threadS=(threadStruct *) threadArg;
 
-	for(int i=0; i<row; i++){
-		pos = pos + (matrixA[row* *colsA +i] * matrixB[i* *colsB +col]);
+	for(int i=0; i<*colsA; i++){
+		pos = pos + (matrixA[threadS->row * *colsA +i] * matrixB[i* *colsB + threadS->col]);
 	}
-	matrixC[row* *colsB +col];
+	matrixC[threadS->row * *colsB + threadS->col]=pos;
+	pthread_exit(NULL);
 }
 
 int main(){
@@ -50,11 +48,9 @@ int main(){
 	cout << "Number of colums" << "\n";
 	cin >> auxB;
 	colsB = &auxB;
-	cout << "\n";
-
+	cout << "\n"; 
+	
 	// inform error in dimensions
-//	cout << "colsA " << *colsA << "\n";
-//	cout << "rowsB " << rowsB << "\n";
 	if( *colsA != rowsB){
 		cout << "\n" << "You can't multiply those matrix";
 		exit(0);
@@ -90,18 +86,12 @@ int main(){
 			}
 		}
 
-		for(int i = 0; i<rowsB; i++){
-			for(int j = 0; j<*colsB; j++){
-				cout << "\n" << matrixB[i* *colsB + j];
-			}
-		}
-
 		//Define a thread array of size M*N
 		int numThreads = rowsA* *colsB;
+		
 		int rc;
-		long t;
+		int t;
 		pthread_t threads[numThreads];
-
 		threadStruct tStruct[numThreads];
 
 		for(t=0; t<numThreads; t++){
@@ -112,13 +102,13 @@ int main(){
 					tStruct[t].col = j;
 
 					//create thread
-					rc = pthread_create(&threads[t], NULL, (void *)matrixMultiplication,
-							(void *)&tStruct[t]);
-
+					rc = pthread_create(&threads[t], NULL, (void *)MatrixMultiplication, (void *)&tStruct[t]);
+					
 					//if an error occurs
 					if(rc){
 						printf("ERROR; return code from pthread_create() is %d\n", rc);
 					}
+
 				}
 			}
 			pthread_join(threads[t], NULL);
@@ -126,13 +116,14 @@ int main(){
 
 		//PRINT MATRIX C
 
+		cout << "resultant matrix \n";
 		for(int i = 0; i<rowsA; i++){
-			for(int j = 0; j<*colsA; j++){
-				 cout<<matrixC[i* *colsB+j];
+			for(int j = 0; j<*colsB; j++){
+				 cout<<matrixC[i* *colsB+j] << "\n";
 			}                                              	
 			
 		}
-      }
+    }
 	pthread_exit(NULL);
 	return 0;
 }
