@@ -123,6 +123,10 @@ int main(){
 			
 		}
     }
+	free(matrixA);
+	free(matrixB);
+	free(matrixC);
+
 	pthread_exit(NULL);
 	return 0;
 }
