@@ -1,18 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "main.h"
 int category;
-
-typedef struct
-{
-    // id
-    int id;
-    // burst time
-    int burstTime;
-    // arrival time
-    int arrivalTime;
-    // priority
-    int priority;
-} ProcessStruct;
 
 int main()
 {
@@ -26,7 +15,7 @@ int main()
     //Check if its a correct category or not
     if (category <= 0 || category >= 4)
     {
-        printf("You entered an invalid category, exiting...");
+        printf("You entered an invalid category, exiting...\n");
         exit(0);
     }
 
@@ -61,6 +50,7 @@ int main()
             scanf("%d", &aux);
             processes[i].priority = aux;
         }
+        
         char *algorithm;
         printf("Type all for running all algorithms or the name of the algorithm you want to run\n");
         printf("The posible algorithms names are: fcfs, sjf, p, rr\n");
@@ -85,7 +75,7 @@ int main()
         if (pages <= 20)
         {
             int sequence[pages];
-            printf("Type the numbers of pages one by one");
+            printf("Type the numbers of pages one by one\n");
             for (int i = 0; i < pages; i++)
             {
                 scanf("%d", &sequence[i]);
