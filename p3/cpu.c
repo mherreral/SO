@@ -2,15 +2,11 @@
 #include <stdlib.h>
 #include "main.h"
 
-int tt = 0;
-int tot_tt = 0;
-int wt = 0;
-int tot_wt = 0;
+int tt = 0, tot_tt = 0, wt = 0, tot_wt = 0;
 
 void initialize_vars()
 {
-    int tt = 0;
-    int wt = 0;
+    tt = 0, wt = 0, tot_wt = 0, tot_tt = 0;
 }
 
 void first_process(ProcessStruct process)
@@ -37,6 +33,15 @@ void times(ProcessStruct process, int nproc)
     tot_tt += tt;
 }
 
+void exec_processes(ProcessStruct processes[], int nproc)
+{
+    // rest of processes
+    for (int i = 1; i < nproc; i++)
+    {
+        times(processes[i], nproc);
+    }
+}
+
 void avg_times(int nproc)
 {
     // find average
@@ -45,6 +50,7 @@ void avg_times(int nproc)
     float avg_wt = tot_wt / nproc;
     printf("Average waiting time = %.3f, Average turnaround time = %.3f\n", avg_wt, avg_tt);
     printf("******************\n");
+    printf("\n\n\n");
 }
 
 void fcfs(ProcessStruct processes[], int nproc)
@@ -72,14 +78,11 @@ void fcfs(ProcessStruct processes[], int nproc)
     // Info for the first process
     first_process(processes[0]);
 
-    // rest of processes
-    for (int i = 1; i < nproc; i++)
-    {
-        times(processes[i], nproc);
-    }
+    // Rest processes
+    exec_processes(processes, nproc);
 
+    // Obtain averages
     avg_times(nproc);
-    printf("\n\n\n");
 }
 
 void sjf(ProcessStruct processes[], int nproc)
@@ -103,14 +106,11 @@ void sjf(ProcessStruct processes[], int nproc)
     // Info for the first process
     first_process(processes[0]);
 
-    // rest of processes
-    for (int i = 1; i < nproc; i++)
-    {
-        times(processes[i], nproc);
-    }
+    // Rest processes
+    exec_processes(processes, nproc);
 
+    // Obtain averages
     avg_times(nproc);
-    printf("\n\n\n");
 }
 
 void priorityNP(ProcessStruct processes[], int nproc)
@@ -134,21 +134,19 @@ void priorityNP(ProcessStruct processes[], int nproc)
     // Info for the first process
     first_process(processes[0]);
 
-    // rest of processes
-    for (int i = 1; i < nproc; i++)
-    {
-        times(processes[i], nproc);
-    }
+    // Rest processes
+    exec_processes(processes, nproc);
 
+    // Obtain averages
     avg_times(nproc);
-    printf("\n\n\n");
 }
 
 void rr(ProcessStruct processes[], int nproc, int q)
 {
     initialize_vars();
+    int curr_time = 0;
     printf("ROUND ROBIN ALGORITHM\n");
-    // sort according to priority
+    // sort according to arrival time
     for (int i = 0; i < nproc; i++)
     {
         for (int j = i + 1; j < nproc; j++)
@@ -161,47 +159,51 @@ void rr(ProcessStruct processes[], int nproc, int q)
             }
         }
     }
-    int i, total = 0, x, counter = 0;
-    x = nproc;
-
-    for (total = 0, i = 0; x != 0;)
+    while (1)
     {
-        if (processes[i].burstTime <= q && processes[i].burstTime > 0)
+        // Check if we can exit cicle
+        int done = 1;
+        for (int i = 0; i < nproc; i++)
         {
-            total = total + processes[i].burstTime;
-            processes[i].burstTime = 0;
-            counter = 1;
+            if (processes[i].burstTime > 0)
+            {
+                // There are processes in queue, we're not done
+                done = 0;
+
+                // Check if we need to preempt again the process
+                if (processes[i].burstTime > q)
+                {
+                    printf("******************\n");
+                    printf("Process %d\n", processes[i].id);
+                    printf("from %d to %d\n", curr_time, curr_time + q);
+                    curr_time += q;
+                    processes[i].burstTime -= q;
+                }
+
+                //  Process can end in the quantum time
+                else
+                {
+                    printf("******************\n");
+                    printf("Process %d finished\n", processes[i].id);
+                    printf("from %d to %d\n", curr_time, curr_time + processes[i].burstTime);
+                    wt = curr_time - processes[i].arrivalTime;
+                    printf("Wating time %d \n", wt);
+                    tt = wt + processes[i].burstTime;
+                    printf("Turnaround time %d \n", tt);
+                    tot_wt += wt;
+                    tot_tt += tt;
+                    curr_time += processes[i].burstTime;
+                    processes[i].burstTime = 0;
+                }
+            }
         }
-        else if (processes[i].burstTime > 0)
-        {
-            processes[i].burstTime = processes[i].burstTime - q;
-            total += q;
-        }
-        if (processes[i].burstTime == 0 && counter == 1)
-        {
-            x--;
-            printf("Process:    %d\n", processes[i].id);
-            printf("Wait time:  %d\n", total - processes[i].arrivalTime - processes[i].burstTime);
-            printf("Turnaround time:    %d\n", total - processes[i].arrivalTime);
-            wt += total - processes[i].arrivalTime - processes[i].burstTime;
-            tt += total - processes[i].arrivalTime;
-            counter = 0;
-        }
-        if (i == nproc - 1)
-        {
-            i = 0;
-        }
-        else if (processes[i + 1].arrivalTime <= total)
-        {
-            i++;
-        }
-        else
-        {
-            i = 0;
-        }
+        // If all processes are done
+        if (done)
+            break;
     }
+
+    // Obtain averages
     avg_times(nproc);
-    printf("\n\n\n");
 }
 
 int main()
@@ -227,7 +229,7 @@ int main()
     processes[2].burstTime = 6;
     processes[2].priority = 3;
 
-    //fcfs(processes, nproc);
+    fcfs(processes, nproc);
     //sjf(processes, nproc);
     //priorityNP(processes, nproc);
     rr(processes, nproc, 2);
