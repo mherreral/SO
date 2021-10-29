@@ -8,12 +8,11 @@ int main()
     // Select category
     printf("Which category are you interested in? (give the number associated)\n");
     printf("1: Process\n");
-    printf("2: Memory\n");
-    printf("3: Disk scheduling\n");
+    printf("2: Disk scheduling\n");
     scanf("%d", &category);
 
     //Check if its a correct category or not
-    if (category <= 0 || category >= 4)
+    if (category != 1 || category != 2)
     {
         printf("You entered an invalid category, exiting...\n");
         exit(0);
@@ -50,7 +49,7 @@ int main()
             scanf("%d", &aux);
             processes[i].priority = aux;
         }
-        
+
         char *algorithm;
         printf("Type all for running all algorithms or the name of the algorithm you want to run\n");
         printf("The posible algorithms names are: fcfs, sjf, p, rr\n");
@@ -58,39 +57,8 @@ int main()
         //TODO CALL THE FILE
     }
 
-    // In case user wants to exec memory algorithms
-    else if (category == 2)
-    {
-        // ask for the number of frames
-        int frames;
-        printf("Type the number of frames\n");
-        scanf("%d", &frames);
-
-        // ask for lenght of sequence
-        int pages;
-        printf("Type the number of pages\n");
-        scanf("%d", &pages);
-
-        // ask for the sequence
-        if (pages <= 20)
-        {
-            int sequence[pages];
-            printf("Type the numbers of pages one by one\n");
-            for (int i = 0; i < pages; i++)
-            {
-                scanf("%d", &sequence[i]);
-            }
-        }
-
-        else
-        {
-            printf("exceed limit, exiting");
-            exit(0);
-        }
-        // TODO llamar algoritmos
-    }
     // In case user wants to exec disk scheduling
-    else if (category == 3)
+    else
     {
         int head;
         int requests[10];
