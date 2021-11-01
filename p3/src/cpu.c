@@ -46,8 +46,8 @@ void avg_times(int nproc)
 {
     // find average
     printf("******************\n");
-    float avg_tt = tot_tt / nproc;
-    float avg_wt = tot_wt / nproc;
+    float avg_tt = (float)tot_tt / (float)nproc;
+    float avg_wt = (float)tot_wt / (float)nproc;
     printf("Average waiting time = %.3f, Average turnaround time = %.3f\n", avg_wt, avg_tt);
     printf("******************\n");
     printf("\n\n\n");
