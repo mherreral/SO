@@ -56,7 +56,7 @@ void avg_times(int nproc)
 void fcfs(ProcessStruct processes[], int nproc)
 {
     initialize_vars();
-    printf("FIRST COME, FIRST SERVED ALGORITHM\n");
+    printf("\nFIRST COME, FIRST SERVED ALGORITHM\n");
     // sort according to arrival time
     for (int i = 0; i < nproc; i++)
     {
@@ -88,7 +88,7 @@ void fcfs(ProcessStruct processes[], int nproc)
 void sjf(ProcessStruct processes[], int nproc)
 {
     initialize_vars();
-    printf("SHORTEST JOB FIRST ALGORITHM\n");
+    printf("\nSHORTEST JOB FIRST ALGORITHM\n");
     // sort according to burst time
     for (int i = 0; i < nproc; i++)
     {
@@ -116,7 +116,7 @@ void sjf(ProcessStruct processes[], int nproc)
 void priorityNP(ProcessStruct processes[], int nproc)
 {
     initialize_vars();
-    printf("PRIORITY NON PREEMPTIVE ALGORITHM\n");
+    printf("\nPRIORITY NON PREEMPTIVE ALGORITHM\n");
     // sort according to priority
     for (int i = 0; i < nproc; i++)
     {
@@ -145,7 +145,7 @@ void rr(ProcessStruct processes[], int nproc, int q)
 {
     initialize_vars();
     int curr_time = 0;
-    printf("ROUND ROBIN ALGORITHM\n");
+    printf("\nROUND ROBIN ALGORITHM\n");
     // sort according to arrival time
     for (int i = 0; i < nproc; i++)
     {
@@ -206,7 +206,7 @@ void rr(ProcessStruct processes[], int nproc, int q)
     avg_times(nproc);
 }
 
-int main()
+/*int main()
 {
     int nproc = 3;
     ProcessStruct processes[nproc];
@@ -233,4 +233,4 @@ int main()
     //sjf(processes, nproc);
     //priorityNP(processes, nproc);
     rr(processes, nproc, 2);
-}
+}*/
