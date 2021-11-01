@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "main.h"
+#include "cpu.h"
+
 int category;
+int nproc;
 
 int main()
 {
@@ -12,7 +15,7 @@ int main()
     scanf("%d", &category);
 
     //Check if its a correct category or not
-    if (category != 1 || category != 2)
+    if (category != 1 & category != 2)
     {
         printf("You entered an invalid category, exiting...\n");
         exit(0);
@@ -21,7 +24,7 @@ int main()
     // In case user wants to exec process scheduling
     if (category == 1)
     {
-        int nproc = 0;
+        nproc = 0;
         char *process;
         printf("Enter the number of process in the queue\n");
         scanf("%i", &nproc);
@@ -49,12 +52,21 @@ int main()
             scanf("%d", &aux);
             processes[i].priority = aux;
         }
+        for (int i = 0; i < nproc; i++)
+        {
+            printf("proccess %d\n", processes[i].id);
+            printf("bt %d\n", processes[i].burstTime);
+            printf("priority %d\n", processes[i].priority);
+            printf("arr time %d\n", processes[i].arrivalTime);
+        }
+        exit(0);
 
-        char *algorithm;
+        char algorithm[4];
         printf("Type all for running all algorithms or the name of the algorithm you want to run\n");
         printf("The posible algorithms names are: fcfs, sjf, p, rr\n");
-        scanf("%c", &algorithm);
-        //TODO CALL THE FILE
+        scanf("%s", algorithm);
+
+        fcfs(processes, nproc);
     }
 
     // In case user wants to exec disk scheduling
@@ -75,4 +87,5 @@ int main()
         }
         // TODO llamar algoritmos
     }
+    return 0;
 }
