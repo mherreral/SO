@@ -19,7 +19,7 @@ int main()
     scanf("%d", &category);
 
     //Check if its a correct category or not
-    if (category != 1 & category != 2)
+    if (category != 1 && category != 2)
     {
         printf("You entered an invalid category, exiting...\n");
         exit(0);
@@ -102,20 +102,61 @@ int main()
     // In case user wants to exec disk scheduling
     else
     {
+        printf("\nWhich algorithm do you want to use?\n\n");
+        printf("1) FCFS\n");
+        printf("2) SSTF\n");
+        printf("3) C-SCAN\n");
+        printf("4) SCAN\n");
+        printf("5) ALL\n");
+
+        scanf("%d", &category);
+        if(category > 5 || category < 1){return 1;}
+
         int head;
         int requests[10];
 
-        // ask for head
-        printf("Where does the head starts?\n");
+        // Ask for head
+        printf("Where does the head starts? ");
         scanf("%d", &head);
 
-        // ask for requests
-        printf("Type the request one by one\n");
+        // Ask for requests
+        printf("Type the request one by one: ");
         for (int i = 0; i < 10; i++)
-        {
+          {
             scanf("%d", &requests[i]);
+          }
+
+        switch (category)
+        {
+        case 1:
+            fcfs_disk(head, requests);
+            break;
+
+        case 2:
+            sstf(head, requests);
+            break;
+
+        case 3:
+            cscan(head, requests, 10, true);
+            cscan(head, requests, 10, false);
+            break;
+
+        case 4:
+            scan(head, requests, 10, true);
+            scan(head, requests, 10, false);
+            break;
+
+        case 5:
+            fcfs_disk(head, requests);
+            sstf(head, requests);
+            cscan(head, requests, 10, true);
+            scan(head, requests, 10, false);
+            break;
+
+        default:
+            printf("That is not a valid option.");
+            return 1;
         }
-        // TODO llamar algoritmos
     }
     return 0;
 }
