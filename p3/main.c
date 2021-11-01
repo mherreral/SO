@@ -148,9 +148,9 @@ int main()
 
         case 5:
             fcfs_disk(head, requests);
-            sstf(head, requests);
             cscan(head, requests, 10, true);
             scan(head, requests, 10, false);
+            sstf(head, requests);
             break;
 
         default:
