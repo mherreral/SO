@@ -8,10 +8,10 @@
 
 void fcfs_disk(int head, int requests[])
 {
-    printf("FIRST COME, FIRST SERVED ALGORITHM\n");
+    printf("\nFIRST COME, FIRST SERVED ALGORITHM\n");
     printf("Sequence is: \n");
     int sum = 0;
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 10; i++)
     {
         printf("%d ", requests[i]);
         if (i == 0)
@@ -29,15 +29,19 @@ void fcfs_disk(int head, int requests[])
 
 void sstf(int head, int requests[])
 {
-    printf("SHORTEST SEEK TIME FIRST\n");
+    printf("\nSHORTEST SEEK TIME FIRST\n");
     printf("Sequence is: \n");
+
+    for (int i = 0; i < 10; i++){
+      printf("%d ", requests[i]);
+    }
 
     int count;
     int sum = 0;
-    while (count != 8)
+    while (count != 10)
     {
         int min = 1000, d, index;
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 10; i++)
         {
             d = abs(requests[i] - head);
             if (min > d)
@@ -48,7 +52,7 @@ void sstf(int head, int requests[])
         }
         sum += min;
         head = requests[index];
-        printf("%d ", head);
+        //printf("%d ", head);
         requests[index] = 10000;
         count++;
     }
@@ -63,7 +67,7 @@ int cmpfunc (const void * a, const void * b) {
 
 void scan(int head, int requests[], size_t reqSize, bool Rmovement)
 {
-  printf("SCAN\n");
+  printf("\nSCAN\n");
   printf("Sequence is: \n");
 
   int diskSize = 200;
@@ -131,13 +135,13 @@ void scan(int head, int requests[], size_t reqSize, bool Rmovement)
 
 void cscan(int head, int requests[], size_t reqSize, bool Rmovement)
 {
-  printf("C-SCAN\n");
+  printf("\nC-SCAN\n");
   printf("Sequence is: \n");
 
   int diskSize = 200;
   int i = 0;
   int sum = 0;
-  
+
   // Sort requests
   qsort(requests, reqSize, sizeof(int), cmpfunc);
 
@@ -185,7 +189,7 @@ void cscan(int head, int requests[], size_t reqSize, bool Rmovement)
           head = requests[i];
         }
 
-      // Move to min disk size 
+      // Move to min disk size
       sum += abs(requests[i+1]);
       printf("%d ", 0);
 
@@ -203,15 +207,17 @@ void cscan(int head, int requests[], size_t reqSize, bool Rmovement)
 }
 
 
-/*int main()
+/*
+int main()
 {
     const int REQUESTS_SIZE = 10;
 
     int requests[] = {30, 35, 98, 183, 37, 122, 14, 124, 65, 67};
     int head = 53;
 
-    // fcfs_disk(head, requests);
-    // sstf(head, requests);
+    fcfs_disk(head, requests);
+    sstf(head, requests);
     // cscan(head, requests, REQUESTS_SIZE, false);
     // scan(head, requests, REQUESTS_SIZE, true);
-}*/
+}
+*/
