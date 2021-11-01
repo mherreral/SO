@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "main.h"
 #include "cpu.h"
 
+ProcessStruct *processes;
 int category;
 int nproc;
+int q;
 
 int main()
 {
@@ -33,7 +36,8 @@ int main()
             printf("Exceed max number");
             exit(0);
         }
-        ProcessStruct processes[nproc];
+        //ProcessStruct processes[nproc];
+        processes = (int *)malloc(sizeof(int) * nproc);
 
         for (int i = 0; i < nproc; i++)
         {
@@ -52,6 +56,7 @@ int main()
             scanf("%d", &aux);
             processes[i].priority = aux;
         }
+        //DEBUG
         for (int i = 0; i < nproc; i++)
         {
             printf("proccess %d\n", processes[i].id);
@@ -59,14 +64,46 @@ int main()
             printf("priority %d\n", processes[i].priority);
             printf("arr time %d\n", processes[i].arrivalTime);
         }
-        exit(0);
 
         char algorithm[4];
         printf("Type all for running all algorithms or the name of the algorithm you want to run\n");
         printf("The posible algorithms names are: fcfs, sjf, p, rr\n");
         scanf("%s", algorithm);
-
-        fcfs(processes, nproc);
+        if (strcmp(algorithm, "fcfs") == 0)
+        {
+            fcfs(processes, nproc);
+        }
+        else if (strcmp(algorithm, "sjf") == 0)
+        {
+            sjf(processes, nproc);
+        }
+        else if (strcmp(algorithm, "p") == 0)
+        {
+            priorityNP(processes, nproc);
+        }
+        else if (strcmp(algorithm, "rr") == 0)
+        {
+            q = 0;
+            printf("Type the quantum (ut)\n");
+            scanf("%d", &q);
+            rr(processes, nproc, q);
+        }
+        else if (strcmp(algorithm, "all") == 0)
+        {
+            q = 0;
+            printf("Type the quantum (ut)\n");
+            scanf("%d", &q);
+            fcfs(processes, nproc);
+            sjf(processes, nproc);
+            priorityNP(processes, nproc);
+            rr(processes, nproc, q);
+        }
+        else
+        {
+            printf("Entered wrong algorithm");
+            exit(0);
+        }
+        free(processes);
     }
 
     // In case user wants to exec disk scheduling
