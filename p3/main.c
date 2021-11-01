@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "main.h"
-#include "cpu.h"
+#include "include/main.h"
+#include "include/cpu.h"
+#include "include/disk.h"
 
 ProcessStruct *processes;
 int category;
@@ -56,14 +57,6 @@ int main()
             scanf("%d", &aux);
             processes[i].priority = aux;
         }
-        //DEBUG
-        for (int i = 0; i < nproc; i++)
-        {
-            printf("proccess %d\n", processes[i].id);
-            printf("bt %d\n", processes[i].burstTime);
-            printf("priority %d\n", processes[i].priority);
-            printf("arr time %d\n", processes[i].arrivalTime);
-        }
 
         char algorithm[4];
         printf("Type all for running all algorithms or the name of the algorithm you want to run\n");
@@ -71,7 +64,7 @@ int main()
         scanf("%s", algorithm);
         if (strcmp(algorithm, "fcfs") == 0)
         {
-            fcfs(processes, nproc);
+            fcfs_cpu(processes, nproc);
         }
         else if (strcmp(algorithm, "sjf") == 0)
         {
@@ -93,7 +86,7 @@ int main()
             q = 0;
             printf("Type the quantum (ut)\n");
             scanf("%d", &q);
-            fcfs(processes, nproc);
+            fcfs_cpu(processes, nproc);
             sjf(processes, nproc);
             priorityNP(processes, nproc);
             rr(processes, nproc, q);

@@ -6,7 +6,7 @@
 // This program prints the string with te movements and the quantity
 
 
-void fcfs(int head, int requests[])
+void fcfs_disk(int head, int requests[])
 {
     printf("FIRST COME, FIRST SERVED ALGORITHM\n");
     printf("Sequence is: \n");
@@ -203,15 +203,15 @@ void cscan(int head, int requests[], size_t reqSize, bool Rmovement)
 }
 
 
-int main()
+/*int main()
 {
     const int REQUESTS_SIZE = 10;
 
     int requests[] = {30, 35, 98, 183, 37, 122, 14, 124, 65, 67};
     int head = 53;
 
-    // fcfs(head, requests);
+    // fcfs_disk(head, requests);
     // sstf(head, requests);
     // cscan(head, requests, REQUESTS_SIZE, false);
     // scan(head, requests, REQUESTS_SIZE, true);
-}
+}*/

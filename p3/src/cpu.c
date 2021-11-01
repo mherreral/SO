@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "main.h"
+#include "../include/main.h"
 
 int tt = 0, tot_tt = 0, wt = 0, tot_wt = 0;
 
@@ -53,7 +53,7 @@ void avg_times(int nproc)
     printf("\n\n\n");
 }
 
-void fcfs(ProcessStruct processes[], int nproc)
+void fcfs_cpu(ProcessStruct processes[], int nproc)
 {
     initialize_vars();
     printf("\nFIRST COME, FIRST SERVED ALGORITHM\n");
@@ -229,7 +229,7 @@ void rr(ProcessStruct processes[], int nproc, int q)
     processes[2].burstTime = 6;
     processes[2].priority = 3;
 
-    fcfs(processes, nproc);
+    fcfs_cpu(processes, nproc);
     //sjf(processes, nproc);
     //priorityNP(processes, nproc);
     rr(processes, nproc, 2);
