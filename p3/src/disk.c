@@ -46,7 +46,7 @@ void sstf(int head, int requests[])
     sum += min;
     head = requests[index];
     printf("%d ", head);
-    requests[index] = 10000;
+    requests[index] = 1000000;
     count++;
   }
   printf("\nTotal movements %d\n", sum);
